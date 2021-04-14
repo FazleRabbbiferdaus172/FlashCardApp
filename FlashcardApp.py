@@ -23,28 +23,52 @@ class ScreenManagement(ScreenManager):
     shared_answer = StringProperty("")
     flashcard_list = ListProperty([])
     screensList = ListProperty([])
+    saved_screen = None
 
     def testScreen(self):
         names = [i for i in range(0, len(self.flashcard_list))]
         len_names = len(names)
         random.shuffle(names)
+        self.screensList = []
         for xx in range(len_names):
             i = names[xx]
             name = str(i)
             nexts = names[(xx+1) % len_names]
             question = self.flashcard_list[i][0]
             answer = self.flashcard_list[i][1]
-            s = CardScreen(name=name, nexts=str(nexts),
+            # s = CardScreen(name=name, nexts=str(nexts),
+            #               question=question, answer=answer)
+            self.screensList.append((name, nexts, question, answer))
+            # self.add_widget(s)
+        if len(self.screensList) > 0:
+            name = self.screensList[0][0]
+            nexts = str(self.screensList[0][1])
+            question = self.screensList[0][2]
+            answer = self.screensList[0][3]
+            s = CardScreen(name=name, nexts=nexts,
                            question=question, answer=answer)
-            self.screensList.append(s)
+            self.saved_screen = s
             self.add_widget(s)
-        if len(names) > 0:
-            self.current = str(names[0])
+            self.screensList.append(self.screensList[0])
+            xxx = self.screensList.pop(0)
+            self.current = xxx[0]
+
+    def next_screen(self):
+        name = self.screensList[0][0]
+        nexts = str(self.screensList[0][1])
+        question = self.screensList[0][2]
+        answer = self.screensList[0][3]
+        s = CardScreen(name=name, nexts=nexts,
+                       question=question, answer=answer)
+        self.add_widget(s)
+        self.screensList.append(self.screensList[0])
+        xxx = self.screensList.pop(0)
+        self.current = xxx[0]
+        self.remove_widget(self.saved_screen)
+        self.saved_screen = s
 
     def removeScreen(self):
-
-        for i in self.screensList:
-            self.remove_widget(i)
+        self.remove_widget(self.saved_screen)
         self.current = "main"
 
 

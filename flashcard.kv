@@ -1,5 +1,4 @@
 #: import CardTransition kivy.uix.screenmanager.CardTransition
-#:import Label kivy.uix.label.Label
 
 ScreenManagement:
     id: sm
@@ -59,7 +58,7 @@ ScreenManagement:
             text: root.answer   
         Button:
             text: "Next"
-            on_release: app.root.current = root.nexts
+            on_release: app.root.current = app.root.next_screen()
             size_hint: (.2,.2)
         Button:
             text: "Home"
