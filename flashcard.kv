@@ -1,0 +1,67 @@
+#: import CardTransition kivy.uix.screenmanager.CardTransition
+#:import Label kivy.uix.label.Label
+
+ScreenManagement:
+    id: sm
+    transition: CardTransition()
+    MainScreen:
+    AddFlashCardScreen:
+
+<MainScreen>:
+    name: "main"
+    GridLayout:
+        rows: 2
+        Button:
+            on_release: app.root.current = "addflashcard"
+            text: "ADD FlashCard"
+            font_size: 24
+        Button:
+            on_release: app.root.testScreen()
+            text: "test today"
+            font_size: 24
+
+<AddFlashCardScreen>:
+    name: "addflashcard"
+    question: question
+    answer: answer
+    GridLayout:
+        rows: 4
+        PageLayout:
+            TextInput:
+                id: question
+                text: "Write Question"
+                multiline: True
+                on_text: root.manager.shared_question = self.text
+            TextInput:
+                id: answer
+                text: "Answer"
+                multiline: True
+                on_text: root.manager.shared_answer = self.text
+        Button:
+            text: "ADD"
+            on_release: root.manager.flashcard_list.append((root.manager.shared_question,root.manager.shared_answer))
+            size_hint: (.2,.2)
+        Button:
+            text: "BACK"
+            on_release: app.root.current = "main"
+            size_hint: (.2,.2)
+        Button:
+            text: "Print"
+            on_release: print(*root.manager.flashcard_list)
+            size_hint: (.2,.2)
+
+<CardScreen>:
+    GridLayout:
+        rows: 4
+        TextInput:
+            text: root.question
+        TextInput:
+            text: root.answer   
+        Button:
+            text: "Next"
+            on_release: app.root.current = root.nexts
+            size_hint: (.2,.2)
+        Button:
+            text: "Home"
+            on_release: app.root.removeScreen()
+            size_hint: (.2,.2)
