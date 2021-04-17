@@ -9,7 +9,7 @@ ScreenManagement:
 <MainScreen>:
     name: "main"
     GridLayout:
-        rows: 2
+        rows: 3
         Button:
             on_release: app.root.current = "addflashcard"
             text: "ADD FlashCard"
@@ -17,6 +17,10 @@ ScreenManagement:
         Button:
             on_release: app.root.testScreen()
             text: "test today"
+            font_size: 24
+        Button:
+            on_release: app.root.drop_table()
+            text: "Drop Table"
             font_size: 24
 
 <AddFlashCardScreen>:
@@ -38,7 +42,7 @@ ScreenManagement:
                 on_text: root.manager.shared_answer = self.text
         Button:
             text: "ADD"
-            on_release: root.manager.flashcard_list.append((root.manager.shared_question,root.manager.shared_answer))
+            on_release: app.root.add_card()
             size_hint: (.2,.2)
         Button:
             text: "BACK"
@@ -46,14 +50,14 @@ ScreenManagement:
             size_hint: (.2,.2)
         Button:
             text: "Print"
-            on_release: print(*root.manager.flashcard_list)
+            on_release: app.root.Print_db()
             size_hint: (.2,.2)
 
 <CardScreen>:
     GridLayout:
         rows: 4
         TextInput:
-            text: root.question
+            text: root.question     
         TextInput:
             text: root.answer   
         Button:
@@ -64,3 +68,16 @@ ScreenManagement:
             text: "Home"
             on_release: app.root.removeScreen()
             size_hint: (.2,.2)
+
+
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
