@@ -1,5 +1,5 @@
 # FlashCardApp
-Make your own flash cards. View your flash cards any time.
+A mobile application to make your own flash cards. View your flash cards any time.
 
 # Demo 
 ![DEMO](https://github.com/FazleRabbbiferdaus172/FlashCardApp/blob/main/Flashcard.gif)
